@@ -1,6 +1,6 @@
 {
   "name": "prism-minmaxed",
-  "version": "1.29.0",
+  "version": "1.0.0",
   "description": "Prism syntax highlighter: minimum browser code, maximum language support",
   "keywords": [
     "prism",
