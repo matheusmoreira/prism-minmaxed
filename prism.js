@@ -33,9 +33,9 @@ const Prism = {
 
       var clone;
       var id;
-      switch (_.util.type(o)) {
+      switch (Prism.util.type(o)) {
         case "Object":
-          id = _.util.objId(o);
+          id = Prism.util.objId(o);
           if (visited[id]) {
             return visited[id];
           }
@@ -51,7 +51,7 @@ const Prism = {
           return /** @type {any} */ (clone);
 
         case "Array":
-          id = _.util.objId(o);
+          id = Prism.util.objId(o);
           if (visited[id]) {
             return visited[id];
           }
@@ -79,7 +79,7 @@ const Prism = {
     txt: plainTextGrammar,
 
     extend: function (id, redef) {
-      var lang = _.util.clone(_.languages[id]);
+      var lang = Prism.util.clone(Prism.languages[id]);
 
       for (var key in redef) {
         lang[key] = redef[key];
@@ -89,7 +89,7 @@ const Prism = {
     },
 
     insertBefore: function (inside, before, insert, root) {
-      root = root || /** @type {any} */ (_.languages);
+      root = root || /** @type {any} */ (Prism.languages);
       var grammar = root[inside];
       /** @type {Grammar} */
       var ret = {};
@@ -115,7 +115,7 @@ const Prism = {
       root[inside] = ret;
 
       // Update references in other language definitions
-      _.languages.DFS(_.languages, function (key, value) {
+      Prism.languages.DFS(Prism.languages, function (key, value) {
         if (value === old && key != inside) {
           this[key] = ret;
         }
@@ -128,14 +128,14 @@ const Prism = {
     DFS: function DFS(o, callback, type, visited) {
       visited = visited || {};
 
-      var objId = _.util.objId;
+      var objId = Prism.util.objId;
 
       for (var i in o) {
         if (o.hasOwnProperty(i)) {
           callback.call(o, i, o[i], type || i);
 
           var property = o[i];
-          var propertyType = _.util.type(property);
+          var propertyType = Prism.util.type(property);
 
           if (propertyType === "Object" && !visited[objId(property)]) {
             visited[objId(property)] = true;
@@ -160,13 +160,13 @@ const Prism = {
       grammar: grammar,
       language: language,
     };
-    _.hooks.run("before-tokenize", env);
+    Prism.hooks.run("before-tokenize", env);
     if (!env.grammar) {
       throw new Error('The language "' + env.language + '" has no grammar.');
     }
-    env.tokens = _.tokenize(env.code, env.grammar);
-    _.hooks.run("after-tokenize", env);
-    return Token.stringify(_.util.encode(env.tokens), env.language);
+    env.tokens = Prism.tokenize(env.code, env.grammar);
+    Prism.hooks.run("after-tokenize", env);
+    return Token.stringify(Prism.util.encode(env.tokens), env.language);
   },
 
   tokenize: function (text, grammar) {
@@ -191,7 +191,7 @@ const Prism = {
     all: {},
 
     add: function (name, callback) {
-      var hooks = _.hooks.all;
+      var hooks = Prism.hooks.all;
 
       hooks[name] = hooks[name] || [];
 
@@ -199,7 +199,7 @@ const Prism = {
     },
 
     run: function (name, env) {
-      var callbacks = _.hooks.all[name];
+      var callbacks = Prism.hooks.all[name];
 
       if (!callbacks || !callbacks.length) {
         return;
@@ -251,7 +251,7 @@ Token.stringify = function stringify(o, language) {
     }
   }
 
-  _.hooks.run("wrap", env);
+  Prism.hooks.run("wrap", env);
 
   var attributes = "";
   for (var name in env.attributes) {
@@ -411,7 +411,7 @@ function matchGrammar(text, tokenList, grammar, startNode, startPos, rematch) {
 
         var wrapped = new Token(
           token,
-          inside ? _.tokenize(matchStr, inside) : matchStr,
+          inside ? Prism.tokenize(matchStr, inside) : matchStr,
           alias,
           matchStr,
         );
