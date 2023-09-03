@@ -1,6 +1,6 @@
 const lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
-const uniqueId = 0;
 const plainTextGrammar = {};
+let uniqueId = 0;
 
 const Prism = {
   util: {
