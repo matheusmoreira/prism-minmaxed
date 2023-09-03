@@ -25,3 +25,5 @@ gulpfile.js
 .jsdoc.json
 MAINTAINERS.md
 SECURITY.md
+
+plugins/
