@@ -1,3 +1,7 @@
+# `prismjs-minmaxed`
+
+ - [@matheusmoreira](https://github.com/matheusmoreira)
+
 ## Maintainers (alphabetical by user name)
 
 - [@Golmote](https://github.com/Golmote)
